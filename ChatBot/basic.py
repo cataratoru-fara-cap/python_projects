@@ -25,21 +25,26 @@ def get_answer_for_question(question: str, knowledge_base: dict) -> str | None:
             return q["answer"]
 
 
-def add_answer_from_user(path_to_knowledge: str, knowledge_base: dict, user_input: str) -> None: # noqa
-    print('Bot: I don\'t know the answer, Can you teach me?\n')
-    new_answer: str = input('Type the answer or "skip" to skip:\n') # noqa
+def add_answer_from_user(path_to_knowledge: str, knowledge_base: dict, user_input: str) -> None:  # noqa
+    print("Bot: I don't know the answer, Can you teach me?\n")
+    new_answer: str = input('Type the answer or "skip" to skip:\n')  # noqa
 
     if new_answer.lower() != "skip":
-        knowledge_base["questions"].append({"question": user_input, "answer": new_answer}) # noqa
+        knowledge_base["questions"].append({"question": user_input, "answer": new_answer})  # noqa
         save_base(path_to_knowledge, knowledge_base)
-        print('Bot: Thank you! I learned a new response!')
+        print("Bot: Thank you! I learned a new response!")
 
 
-def add_question_to_unanswered(path_to_unanswered: str, user_input: str) -> None: # noqa
-    raise NotImplementedError
+def add_question_to_unanswered(path_to_unanswered: str, user_input: str) -> None:  # noqa
+    print("""Bot: I don't know the answer, I will check, please try again later.
+        For more information you can contactthe secretary office at
+        999-999-99 between now and forever """)
+    unanswered_base: dict = load_base(path_to_unanswered)
+    unanswered_base["questions"].append({"question": user_input})
+    save_base(path_to_unanswered, unanswered_base)
 
 
-def chat_bot(path_to_knowledge: str):
+def chat_bot(path_to_knowledge: str, path_to_unanswered: str):
     knowledge_base: dict = load_base(path_to_knowledge)
 
     while True:
@@ -53,14 +58,15 @@ def chat_bot(path_to_knowledge: str):
 
         if best_match:
             answer: str = get_answer_for_question(best_match, knowledge_base)
-            print(f'Bot: {answer}')
+            print(f"Bot: {answer}")
         else:
-            add_answer_from_user(path_to_knowledge, knowledge_base, user_input)
+            # add_answer_from_user(path_to_knowledge, knowledge_base, user_input) # noqa
+            add_question_to_unanswered(path_to_unanswered, user_input)
 
 
 def main() -> None:
-    chat_bot('ChatBot/knowledge_base.json')
+    chat_bot("ChatBot/knowledge_base.json", "ChatBot/unanswered_base.json")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

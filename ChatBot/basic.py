@@ -86,8 +86,10 @@ def custom_bot(user_input: str) -> str:
         return answer
     else:
         # add_answer_from_user(path_to_knowledge, knowledge_base, user_input) # noqa
-        #The print statement inside add_question_to_unanswered thankfully gets  ignored by gradio
-        add_question_to_unanswered(user_input=user_input, path_to_unanswered="ChatBot/unanswered_base.json")
+        # The print statement inside add_question_to_unanswered thankfully gets  ignored by gradio
+        add_question_to_unanswered(
+            user_input=user_input, path_to_unanswered="ChatBot/unanswered_base.json"
+        )
         return """ I don't know the answer, I will check, please try again later.
         For more information you can contact the secretary office at
         999-999-99 between now and forever """
@@ -97,7 +99,8 @@ def main() -> None:
     # chat_bot("ChatBot/knowledge_base.json", "ChatBot/unanswered_base.json")
 
     demo = gradio.Interface(
-        fn=custom_bot, inputs="text", outputs="text", title="ChatBot")
+        fn=custom_bot, inputs="text", outputs="text", title="ChatBot"
+    )
     demo.launch(share=True)
 
 

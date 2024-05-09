@@ -1,0 +1,13 @@
+name: llmbot
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - chromadb
+  - langchain
+  - openai
+  - tiktoken
+  - unstructured
+  - flake8
+  - black
+prefix: /home/lupulcelbun/anaconda3/envs/llmbot

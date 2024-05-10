@@ -75,8 +75,8 @@ def chat_bot(path_to_knowledge: str, path_to_unanswered: str):
 
 
 def custom_bot(user_input: str) -> str:
-    knowledge_base: dict = load_base("ChatBot/knowledge_base.json")
-    unanswered_base: dict = load_base("ChatBot/unanswered_base.json")
+    knowledge_base: dict = load_base("knowledge_base.json")
+    unanswered_base: dict = load_base("unanswered_base.json")
 
     questions = [q["question"] for q in knowledge_base["questions"]]
     best_match: str | None = find_best_match(user_input, questions)
@@ -88,7 +88,7 @@ def custom_bot(user_input: str) -> str:
         # add_answer_from_user(path_to_knowledge, knowledge_base, user_input) # noqa
         # The print statement inside add_question_to_unanswered thankfully gets  ignored by gradio
         add_question_to_unanswered(
-            user_input=user_input, path_to_unanswered="ChatBot/unanswered_base.json"
+            user_input=user_input, path_to_unanswered="unanswered_base.json"
         )
         return """ I don't know the answer, I will check, please try again later.
         For more information you can contact the secretary office at
@@ -96,7 +96,7 @@ def custom_bot(user_input: str) -> str:
 
 
 def main() -> None:
-    # chat_bot("ChatBot/knowledge_base.json", "ChatBot/unanswered_base.json")
+    # chat_bot("knowledge_base.json", "unanswered_base.json")
 
     demo = gradio.Interface(
         fn=custom_bot, inputs="text", outputs="text", title="ChatBot"
